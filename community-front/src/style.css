@@ -1,0 +1,35 @@
+* {font-family: Arial, Helvetica, sans-serif;}
+
+html{
+    display: block;
+    background-color: #0d0d0e;
+    overflow-x: hidden;
+    background-image: url("https://raw.githubusercontent.com/gototheTK/Board/main/designs/images/boardForm_background.gif");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 95%;
+}
+
+
+
+body {
+    
+    background-color: transparent !important;
+}
+
+#logout:hover {
+    content: "Logout" !important;
+}
+
+
+.style {
+    background-color: #212529;
+    color:"white"
+}
+
+.transparent {
+    opacity: 0.8; 
+    background-color: "transparent"
+}
+

@@ -1,0 +1,79 @@
+* {font-family: Arial, Helvetica, sans-serif;}
+
+html{
+    display: block;
+    background-color: #0d0d0e;
+    overflow-x: hidden;
+    background-image: url("https://raw.githubusercontent.com/gototheTK/Board/main/designs/images/boardForm_background.gif");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 95%;
+}
+a {
+    color: white !important;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: transparent !important;
+    border-color: #fff !important;
+}
+
+.card-link:visited {text-decoration: none; color: #6e6a6a !important;}
+
+
+.modal-lg, .modal-xl{
+    max-width: 60% !important;
+    
+}
+
+.popover {
+    width: 600px;
+    max-width: 900px !important;
+    
+}
+
+
+.modal-content{
+    opacity: 0.8 !important;
+    background-color: #212529 !important;
+    color:rgb(255, 255, 255) !important;
+}
+
+.close{
+    color: #f8f9fa;
+    border-color: #f8f9fa;
+    background-color: transparent;
+    border: 1px solid;
+    border-radius: .25rem;
+}
+
+body {
+    
+    background-color: transparent !important;
+}
+
+.modal-open{
+    padding-right:0!important;
+}
+
+.card-img{
+    opacity: 1.0 !important;
+}
+
+.StyleButton:focus{
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%) !important;
+}
+
+.StyleButton:active{
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%) !important;
+}
+
+.StyleButton:visited{
+    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%) !important;
+}
+ 
+
+ 
