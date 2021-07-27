@@ -22,6 +22,7 @@ import com.community.communityback.repository.UserRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -141,14 +142,54 @@ public class BoardService {
 
 
     @Transactional
-    public Integer 댓글쓰기(Long userId, Long boardId, String content){
-        return replyRepository.replySave(userId, boardId, content);
+    public Integer 댓글쓰기(Long userId, Long boardId, Long parentId, String content ){
+
+       replyRepository.replySave(userId, boardId, parentId, 0, 0,content);
+
+
+        replyRepository.findAllByGroupIdIsNull().forEach((action)->{
+            action.setGroupId(action.getId());
+        });
+        
+        return  201;
+
     }
 
+
     @Transactional
+    public Integer 대댓글쓰기(Long userId, Long boardId,Long parentId, String content ){
+
+        
+
+
+        Reply ReplyEntity = replyRepository.findById(parentId).orElseThrow(()->{
+            return new IllegalArgumentException("댓글값이 없습니다.");
+        });
+
+          replyRepository.subReplySave(userId, boardId, ReplyEntity.getGroupId(),parentId, ReplyEntity.getStepNum()+1,ReplyEntity.getChildren().size()+ ReplyEntity.getRankNum(), content);
+
+          List<Reply> list = replyRepository.findAllByGroupId(Sort.by("rankNum"),ReplyEntity.getGroupId());
+
+          for(int i =0; i<list.size(); i++){
+
+            list.get(i).setRankNum(i);
+
+          }
+
+                
+        return 201;
+    }
+
+
+    @Transactional(readOnly=true)
     public Page<Reply> 댓글가져오기(Long boardId,Pageable pageable){
+
+        
+
         return replyRepository.findAllByBoardId(boardId, pageable);
     }
 
+
+   
 
 }

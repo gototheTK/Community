@@ -10,7 +10,6 @@ import {
   CloseButton,
   Container,
   ButtonGroup,
-  ToggleButton,
 } from "react-bootstrap";
 import {
   ACCESS_TOKEN,
@@ -19,11 +18,10 @@ import {
   ResToken,
 } from "../../Functions/HttpMethod";
 import { UserDispatch } from "../../Home";
-import Header from "../Header";
 import { OUTLINE_LIGHT } from "../PartsConstants";
 
 const max_width = `"max-width": "1000px"`;
-const style = `opacity: 0.9, "background-color": "#212529", color: "white"`;
+// const style = `opacity: 0.9, "background-color": "#212529", color: "white"`;
 
 const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
   const dispatch = useContext(UserDispatch);
@@ -178,7 +176,6 @@ const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
           <ButtonGroup className="mb-2">
             <Container>
               {userInterests.map((userInterrest) => {
-                console.log(radioValue === userInterrest.id);
                 return radioValue === userInterrest.id ? (
                   <Button
                     key={userInterrest.id}
@@ -248,6 +245,7 @@ const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
               return (
                 <Col key={base64.id} xs={6} md={4}>
                   <CloseButton
+                    key={base64.id}
                     aria-label="Hide"
                     onClick={() => cancelButton(base64.name)}
                   ></CloseButton>

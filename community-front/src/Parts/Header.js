@@ -1,11 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Navbar, Form, FormControl, Button, Col, Row } from "react-bootstrap";
-import {
-  ACCESS_TOKEN,
-  Logout,
-  REFRESH_TOKEN,
-  USERNAME,
-} from "../Functions/HttpMethod";
+import { Logout } from "../Functions/HttpMethod";
 import { UserDispatch } from "../Home";
 import JoinForm from "./Login/JoinForm";
 import LoginForm from "./Login/LoginForm";

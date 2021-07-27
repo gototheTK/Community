@@ -188,10 +188,14 @@ public class BoardController {
 
 
     @GetMapping("/board/{id}/reply/list")
-    public ReplyResponseDTO<?> getReply(@PathVariable Long id,@PageableDefault(size=10, sort="id", direction = Sort.Direction.DESC) Pageable pageable){
+    public ReplyResponseDTO<?> getReply(@PathVariable Long id,@PageableDefault(size=10
+
+    ) Pageable pageable){
+
 
    
         Page<Reply> replys = boardService.댓글가져오기(id, pageable);
+       
 
         List<Integer> pages = new ArrayList<>();
 
@@ -219,7 +223,7 @@ public class BoardController {
         }
 
 
-        return new ReplyResponseDTO<>(HttpStatus.OK.value(), pageable.getPageNumber(), pages, replys.getContent());
+        return new ReplyResponseDTO<>(HttpStatus.OK.value(), total-1, pages, replys.getContent());
     }
 
 

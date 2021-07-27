@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap";
 
 import Header from "./Parts/Header";
 import Body from "./Parts/Body";
-import { GetRequest, HOST_DOMAIN, ResToken } from "./Functions/HttpMethod";
 
 export const UserDispatch = createContext(null);
 

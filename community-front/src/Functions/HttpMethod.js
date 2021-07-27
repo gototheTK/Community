@@ -19,18 +19,16 @@ export const Logout = () => {
 
 export const ResToken = (response) => {
   const access_token = response.headers.get(ACCESS_TOKEN);
-  console.log(access_token);
   if (access_token !== null) {
     localStorage.setItem(ACCESS_TOKEN, access_token);
-    console.log(localStorage.getItem(ACCESS_TOKEN));
   } else {
     Logout();
+    alert("로그인 하여주세요!");
+    window.location.replace("/");
   }
 };
 
 export const GetRequest = () => {
-  console.log(localStorage.getItem(REFRESH_TOKEN));
-  console.log(localStorage.getItem(ACCESS_TOKEN));
   return {
     method: GET,
     headers: {

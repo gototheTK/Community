@@ -38,8 +38,6 @@ const BoardPage = (props) => {
     replys: [],
   });
 
-  const [form, setForm] = useState(-1);
-
   const [recommend, setRecommend] = useState(0);
 
   const getBoard = () => {
@@ -52,7 +50,6 @@ const BoardPage = (props) => {
       })
       .then((response) => {
         setBoard(response);
-        console.log(board);
         setRecommend(response.recommend);
       })
       .catch((error) => {
@@ -63,14 +60,12 @@ const BoardPage = (props) => {
   const getReply = (page) => {
     const name = "댓글가져오기";
     const domain = `/board/${id}/reply/list?page=${page}`;
-    console.log(domain);
     fetch(`${HOST_DOMAIN + domain}`, GetRequest())
       .then((response) => {
         ResToken(response);
         return response.json();
       })
       .then((response) => {
-        console.log(response.replys);
         setResReply(response);
       })
       .catch((error) => {
@@ -99,7 +94,7 @@ const BoardPage = (props) => {
 
   useEffect(() => {
     getBoard();
-    getReply(0);
+    getReply(resReply.page);
   }, []);
 
   return (
@@ -123,14 +118,14 @@ const BoardPage = (props) => {
           </Card.Subtitle>
         </Card.Header>
         <Card.Body>
-          <Card.Text>
-            <p>{board.content}</p>
-          </Card.Text>
+          <Card.Text>{board.content}</Card.Text>
           {board.boardFiles.map((file) => {
-            console.log(HOST_DOMAIN + file.filePath);
             return (
               <>
-                <Card.Img src={`${HOST_DOMAIN + "/" + file.filePath}`} />
+                <Card.Img
+                  key={file.id}
+                  src={`${HOST_DOMAIN + "/" + file.filePath}`}
+                />
               </>
             );
           })}
@@ -165,6 +160,7 @@ const BoardPage = (props) => {
               {resReply.pages.map((page) => {
                 return (
                   <Button
+                    key={page}
                     onClick={() => getReply(page)}
                     variant={OUTLINE_LIGHT}
                   >
@@ -178,7 +174,7 @@ const BoardPage = (props) => {
         </Card.Footer>
         {dispatch.user.active === true ? (
           <Card.Footer className="d-flex">
-            <ReplyForm boardId={id} getReply={getReply} page={0} />
+            <ReplyForm boardId={id} getReply={getReply} page={resReply.page} />
           </Card.Footer>
         ) : (
           <></>

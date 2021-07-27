@@ -14,4 +14,7 @@ public class ReplyResponseDTO<T> {
     private Integer page;
     private T pages;
     private T replys;
+
+
+
 }

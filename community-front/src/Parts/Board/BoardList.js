@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ButtonGroup, Container, Button, Pagination } from "react-bootstrap";
 import BoardItem from "./BoardItem";
 import { OUTLINE_LIGHT } from "../PartsConstants";
@@ -29,11 +29,9 @@ const BoardList = () => {
 
   const dispatch = useContext(UserDispatch);
   const keyword = dispatch.keyword;
-  console.log("키워드:" + keyword);
   const getBoardList = (page) => {
     const name = "글목록가져오기";
     const domain = `/board/list?page=${page}&keyword=${keyword}`;
-    console.log(keyword);
     fetch(`${HOST_DOMAIN + domain}`, {
       method: GET,
       headers: {
@@ -170,7 +168,7 @@ const BoardList = () => {
               }
 
               return (
-                <Pagination.Item onClick={() => getBoardList(page)}>
+                <Pagination.Item key={page} onClick={() => getBoardList(page)}>
                   {page + 1}
                 </Pagination.Item>
               );
@@ -220,6 +218,7 @@ const BoardList = () => {
           {userInterests.map((interest) => {
             return (
               <Button
+                key={interest.id}
                 onClick={() => getBoardsOfInterest(0, interest)}
                 variant={OUTLINE_LIGHT}
               >

@@ -10,7 +10,7 @@ const ReplyForm = ({ boardId, getReply, page }) => {
   });
 
   const changeValue = (e) => {
-    console.log(e.target.name);
+    console.log(page);
     setReply({ ...reply, [e.target.name]: e.target.value });
   };
 
@@ -26,13 +26,15 @@ const ReplyForm = ({ boardId, getReply, page }) => {
   const writeReply = () => {
     const domain = "/api/board/reply/write";
     const name = "댓글쓰기";
+
     fetch(`${HOST_DOMAIN + domain}`, PostRequest(reply))
       .then((response) => {
         ResToken(response);
         return response.json();
       })
       .then((response) => {
-        if (response.status === 201) {
+        if (!response) {
+        } else {
           setReply({ boardId: boardId, content: "" });
           getReply(page);
         }
