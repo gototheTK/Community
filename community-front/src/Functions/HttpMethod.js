@@ -23,8 +23,6 @@ export const ResToken = (response) => {
     localStorage.setItem(ACCESS_TOKEN, access_token);
   } else {
     Logout();
-    alert("로그인 하여주세요!");
-    window.location.replace("/");
   }
 };
 

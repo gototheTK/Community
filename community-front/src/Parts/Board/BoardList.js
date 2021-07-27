@@ -101,7 +101,6 @@ const BoardList = () => {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
         setItems(response);
       })
       .catch((error) => {
@@ -118,7 +117,6 @@ const BoardList = () => {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
         setItems(response);
       })
       .catch((error) => {
