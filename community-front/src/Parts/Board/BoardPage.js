@@ -6,8 +6,10 @@ import {
   Card,
   Container,
 } from "react-bootstrap";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import {
   convertFormatToDate,
+  DeleteRequest,
   GetRequest,
   HOST_DOMAIN,
   ResToken,
@@ -20,6 +22,8 @@ import ReplyItem from "./ReplyItem";
 const BoardPage = (props) => {
   const id = props.match.params.id;
   const dispatch = useContext(UserDispatch);
+
+  const [show, setShow] = useState(false);
 
   const [board, setBoard] = useState({
     id: id,
@@ -78,17 +82,50 @@ const BoardPage = (props) => {
     const domain = "/api/board/recommend/" + id;
     fetch(`${HOST_DOMAIN + domain}`, GetRequest())
       .then((response) => {
-        ResToken(response);
+        if (response.status === 403) {
+          dispatch.setUser({
+            username: localStorage.getItem("username"),
+            active: localStorage.getItem("username") !== null ? true : false,
+          });
+          alert("다시 로그인하여 주세요");
+        } else {
+          ResToken(response);
+        }
         return response.json();
       })
       .then((response) => {
-        if (response.status === 500 || response.status === 403) {
-          throw Error(response.data);
-        }
         setRecommend(response);
       })
       .catch((error) => {
         alert(`${error} 그리하여 ${name}실패 하였습니다.`);
+      });
+  };
+
+  const deleteBoard = () => {
+    const name = "삭제하기";
+    const domain = "/api/board/delete/" + id;
+    fetch(`${HOST_DOMAIN + domain}`, DeleteRequest())
+      .then((response) => {
+        if (response.status === 403) {
+          dispatch.setUser({
+            username: localStorage.getItem("username"),
+            active: localStorage.getItem("username") !== null ? true : false,
+          });
+          alert("다시 로그인하여 주세요");
+        } else {
+          ResToken(response);
+        }
+        if (response.status === 200) {
+          alert("삭제가 완료되었습니다.");
+          props.history.push("/");
+        }
+      })
+      .catch((error) => {
+        if (error.statusCode === 403) {
+          alert("로그아웃되었습니다. 로그인해주세요.");
+        } else {
+          alert(`${error.statusCode} 그리하여 ${name}실패 하였습니다.`);
+        }
       });
   };
 
@@ -140,7 +177,22 @@ const BoardPage = (props) => {
             </Button>
             {/* <Button variant="outline-danger">비추천 {board.recommend}</Button> */}
           </Card.Subtitle>
+
+          {dispatch.user.username === board.username ? (
+            <div className="d-flex justify-content-end">
+              <Link to={"/board/modify/" + id}>
+                <Button variant="outline-secondary">수정</Button>
+              </Link>
+
+              <Button onClick={deleteBoard} variant="outline-secondary">
+                삭제
+              </Button>
+            </div>
+          ) : (
+            <></>
+          )}
         </Card.Body>
+
         <hr />
         <Card.Body>
           {resReply.replys.map((reply) => {

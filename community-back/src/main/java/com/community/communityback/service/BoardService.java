@@ -2,11 +2,10 @@ package com.community.communityback.service;
 
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.community.communityback.dto.Board.BoardRequestDTO;
+
 import com.community.communityback.handler.FileHandler;
 import com.community.communityback.model.Board;
 import com.community.communityback.model.BoardFile;
@@ -81,6 +80,36 @@ public class BoardService {
     }
 
     @Transactional
+    public void 글수정하기기(Board board, List<MultipartFile> files) throws Exception{
+
+        Board entity = boardRepository.findById(board.getId()).orElseThrow(()->{
+            return new IllegalArgumentException("해당하는 게시글이 존재하지 않습니다.");
+        });
+
+        if(files== null){
+
+        }else{
+            List<BoardFile> list = fileHandler.parseFileInfo(board, files);
+            List<BoardFile> fileBeans = board.getBoardFiles();
+            for(BoardFile file: list){
+                fileBeans.add(boardFileRepository.save(file));
+            }
+            entity.setBoardFiles(fileBeans);
+        }
+
+        entity.setTitle(board.getTitle());
+        entity.setContent(board.getContent());
+
+
+    }
+
+    @Transactional
+    public void 글삭제하기(Long id){
+        boardRepository.deleteById(id);
+    }
+
+
+    @Transactional
     public Board 글불러오기(Long id){
         
        Board BoardEntity =  boardRepository.findById(id).orElseThrow(()->{
@@ -126,19 +155,8 @@ public class BoardService {
        });
     }
 
-    @Transactional
-    public Board 글수정하기(Board board){
-        Board boardEntity = 글불러오기(board.getId());
-        boardEntity.setTitle(board.getTitle());
-        boardEntity.setContent(board.getContent());
-        return boardEntity;
-    }
 
 
-    @Transactional
-    public void 글삭제하기(Long id){
-        boardRepository.deleteById(id);
-    }
 
 
     @Transactional

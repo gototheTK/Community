@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, FormControl } from "react-bootstrap";
+import context from "react-bootstrap/esm/AccordionContext";
 import { HOST_DOMAIN, PostRequest, ResToken } from "../../Functions/HttpMethod";
+import { UserDispatch } from "../../Home";
 import { OUTLINE_LIGHT } from "../PartsConstants";
 
-const ReplyForm = ({ boardId, getReply, page }) => {
+const ReplyForm = ({ boardId, getReply, page, history }) => {
+  const dispatch = useContext(UserDispatch);
+
   const [reply, setReply] = useState({
     boardId: boardId,
     content: "",
   });
 
   const changeValue = (e) => {
-    console.log(page);
     setReply({ ...reply, [e.target.name]: e.target.value });
   };
 
@@ -29,7 +32,16 @@ const ReplyForm = ({ boardId, getReply, page }) => {
 
     fetch(`${HOST_DOMAIN + domain}`, PostRequest(reply))
       .then((response) => {
-        ResToken(response);
+        if (response.status === 403) {
+          dispatch.setUser({
+            username: localStorage.getItem("username"),
+            active: localStorage.getItem("username") !== null ? true : false,
+          });
+          alert("다시 로그인하여 주세요");
+        } else {
+          ResToken(response);
+        }
+
         return response.json();
       })
       .then((response) => {

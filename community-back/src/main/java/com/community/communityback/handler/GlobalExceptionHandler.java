@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value=Exception.class)
     public ErrorResponseDTO<String> handleArgumentExceoption(Exception e) {
     
-        System.err.println("오류:"+e.toString());
+
 
         return new ErrorResponseDTO<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }

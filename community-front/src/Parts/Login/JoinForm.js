@@ -22,6 +22,8 @@ const JoinForm = ({ show, move, close }) => {
         if (response.status === 201) {
           Logout();
           move();
+        } else {
+          alert("회원가입에 실패하였습니다. 입력한정보를 확인하여주세요");
         }
       })
       .catch((error) => {

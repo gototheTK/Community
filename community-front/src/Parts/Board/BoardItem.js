@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { convertFormatToDate, HOST_DOMAIN } from "../../Functions/HttpMethod";
 
 const BoardItem = (props) => {
   const item = props.item;
-
-  console.log(item);
 
   return (
     <>
@@ -36,7 +34,6 @@ const BoardItem = (props) => {
             <Card.Text>{item.content}</Card.Text>
 
             {item.boardFiles.map((file) => {
-              console.log(item.boardFiles.length);
               return (
                 <Card.Img
                   key={file.id}

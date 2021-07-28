@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Button,
   Card,
@@ -128,11 +128,9 @@ const ReplyItem = (props) => {
             </OverlayTrigger>
           </>
         ) : (
-          <>
-            <Button disabled variant="link">
-              {user.username}
-            </Button>
-          </>
+          <Button disabled variant="link">
+            {user.username}
+          </Button>
         )}
         {parent === null ? "" : ` @ ${parent.user.username}`}
         <Card.Text>{content}</Card.Text>

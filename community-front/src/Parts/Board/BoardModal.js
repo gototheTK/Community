@@ -14,6 +14,7 @@ import {
 import {
   ACCESS_TOKEN,
   HOST_DOMAIN,
+  Logout,
   REFRESH_TOKEN,
   ResToken,
 } from "../../Functions/HttpMethod";
@@ -77,8 +78,6 @@ const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
       if (e.target.files[i]) {
         console.log(e.target.files[i]);
         setFiles([...files, e.target.files[i]]);
-        console.log("파일" + files);
-        console.log(files);
         let reader = new FileReader();
         reader.readAsDataURL(e.target.files[i]);
         reader.onloadend = () => {
@@ -107,8 +106,6 @@ const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
   };
 
   const write = () => {
-    console.log(files);
-
     const name = "글쓰기";
     const domain = "/api/board/write";
     let multipleFiles = new FormData();
@@ -144,12 +141,16 @@ const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
       body: multipleFiles,
     })
       .then((response) => {
+        if (response.status === 403) {
+          dispatch.setUser({
+            username: localStorage.getItem("username"),
+            active: localStorage.getItem("username") !== null ? true : false,
+          });
+          alert("다시 로그인하여 주세요");
+        }
         ResToken(response);
         setImgBase64([]);
         setFiles([]);
-        return response.json();
-      })
-      .then((response) => {
         getBoardList();
         setShow(false);
       })
@@ -243,9 +244,8 @@ const BoardModal = ({ userInterests, show, setShow, getBoardList }) => {
           <Row>
             {imgBase64.map((base64) => {
               return (
-                <Col key={base64.id} xs={6} md={4}>
+                <Col xs={6} md={4}>
                   <CloseButton
-                    key={base64.id}
                     aria-label="Hide"
                     onClick={() => cancelButton(base64.name)}
                   ></CloseButton>

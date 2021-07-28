@@ -196,7 +196,7 @@ const UserModal = ({ show, setShow, userInterests, setUserInterests }) => {
                 style={{ background: "#212529", color: "white" }}
                 id="contained-modal-title-vcenter"
               >
-                마이페이지
+                회원정보
               </Modal.Title>
             </Nav.Link>
           </Nav.Item>
