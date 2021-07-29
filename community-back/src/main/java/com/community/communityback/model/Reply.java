@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Converter;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
@@ -26,7 +28,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
+import org.hibernate.boot.model.source.spi.ColumnBindingDefaults;
 import org.hibernate.mapping.IdGenerator;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -45,23 +50,24 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
+
+
+    private Long groupId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"board, parent"})
     @JoinColumn(name="parentId")
     private Reply parent;
 
-    private Long groupId;
 
+    @ColumnDefault("0")
     private int stepNum;
 
+    @ColumnDefault("0")
     private int rankNum;
-
-    @OneToMany(mappedBy="parent", fetch=FetchType.LAZY, cascade=CascadeType.REMOVE)
-    @JsonIgnoreProperties({"board","parent", "children"})
-    @OrderBy("Id desc")
-    private List<Reply> children;
+    
+    @ColumnDefault("0")
+    private int answerNum;
     
 
     @Column(nullable = false, length = 200)

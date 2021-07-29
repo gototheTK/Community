@@ -168,6 +168,7 @@ public class BoardService {
         replyRepository.findAllByGroupIdIsNull().forEach((action)->{
             action.setGroupId(action.getId());
         });
+
         
         return  201;
 
@@ -177,23 +178,13 @@ public class BoardService {
     @Transactional
     public Integer 대댓글쓰기(Long userId, Long boardId,Long parentId, String content ){
 
-        
-
-
         Reply ReplyEntity = replyRepository.findById(parentId).orElseThrow(()->{
             return new IllegalArgumentException("댓글값이 없습니다.");
         });
 
-          replyRepository.subReplySave(userId, boardId, ReplyEntity.getGroupId(),parentId, ReplyEntity.getStepNum()+1,ReplyEntity.getChildren().size()+ ReplyEntity.getRankNum(), content);
+          replyRepository.subReplySave(userId, boardId, ReplyEntity.getGroupId(),parentId, ReplyEntity.getStepNum()+1,ReplyEntity.getAnswerNum()+ ReplyEntity.getRankNum(), content);
 
-          List<Reply> list = replyRepository.findAllByGroupId(Sort.by("rankNum"),ReplyEntity.getGroupId());
-
-          for(int i =0; i<list.size(); i++){
-
-            list.get(i).setRankNum(i);
-
-          }
-
+          ReplyEntity.setAnswerNum(ReplyEntity.getAnswerNum()+1);
                 
         return 201;
     }

@@ -31,14 +31,16 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public User 회원가입(User user)
+    public Integer 회원가입(User user)
     {
 
-
-        String EcodedPassword = encoder.encode(user.getPassword());
+        if(userRepository.findByUsername(user.getUsername()).isPresent()){
+         return 200;
+        }else{
+            String EcodedPassword = encoder.encode(user.getPassword());
         user.setPassword(EcodedPassword);
-        return userRepository.save(user);
-
+        return 201;
+        }
         
     }
 

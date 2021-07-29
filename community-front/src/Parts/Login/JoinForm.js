@@ -19,11 +19,15 @@ const JoinForm = ({ show, move, close }) => {
     const domain = "/join";
     fetch(`${HOST_DOMAIN + domain}`, PostRequest(item))
       .then((response) => {
-        if (response.status === 201) {
+        return response.json();
+      })
+      .then((response) => {
+        if (response === 200) {
+          alert("아이디가 이미 존재합니다");
+        } else if (response === 201) {
+          alert("회원가입이 완료되었습니다.");
           Logout();
           move();
-        } else {
-          alert("회원가입에 실패하였습니다. 입력한정보를 확인하여주세요");
         }
       })
       .catch((error) => {

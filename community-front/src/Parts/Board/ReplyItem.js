@@ -70,7 +70,7 @@ const ReplyItem = (props) => {
     >
       <Card.Body>
         {dispatch.user.active === true &&
-        user.username !== dispatch.user.username ? (
+        dispatch.user.username !== user.username ? (
           <>
             <OverlayTrigger
               trigger="click"
@@ -128,11 +128,14 @@ const ReplyItem = (props) => {
             </OverlayTrigger>
           </>
         ) : (
-          <Button disabled variant="link">
-            {user.username}
-          </Button>
+          <>
+            <Button disabled variant="link">
+              {user.username}
+            </Button>
+          </>
         )}
         {parent === null ? "" : ` @ ${parent.user.username}`}
+
         <Card.Text>{content}</Card.Text>
       </Card.Body>
     </Card>

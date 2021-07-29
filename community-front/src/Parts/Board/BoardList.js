@@ -15,7 +15,7 @@ import {
 } from "../../Functions/HttpMethod";
 import { UserDispatch } from "../../Home";
 
-const BoardList = () => {
+const BoardList = (props) => {
   const [show, setShow] = useState(false);
   const [userShow, setUserShow] = useState(false);
   const [items, setItems] = useState({
@@ -28,10 +28,10 @@ const BoardList = () => {
   const [userInterests, setUserInterests] = useState([]);
 
   const dispatch = useContext(UserDispatch);
-  const keyword = dispatch.keyword;
+  const keyword = props.location.search.slice(1);
   const getBoardList = (page) => {
     const name = "글목록가져오기";
-    const domain = `/board/list?page=${page}&keyword=${keyword}`;
+    const domain = `/board/list?page=${page}&${keyword}`;
     fetch(`${HOST_DOMAIN + domain}`, {
       method: GET,
       headers: {
@@ -226,17 +226,6 @@ const BoardList = () => {
           })}
         </ButtonGroup>
 
-        {/* <ButtonGroup siza="lg" vertical>
-          <br />
-          <Button variant={OUTLINE_LIGHT}>
-            <h5>작상한댓글</h5>
-          </Button>
-          <br />
-          <Button variant={OUTLINE_LIGHT}>
-            <h5>작성한글</h5>
-          </Button>
-          <br />
-        </ButtonGroup> */}
         <br />
         <br />
       </Container>

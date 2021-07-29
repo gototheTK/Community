@@ -50,7 +50,7 @@ public class BoardController {
 
         System.out.println("키워드:"+keyword);
         Page<Board> boards;
-        if(!keyword.isBlank()){
+        if(keyword!=null){
             System.out.println("키워드:"+keyword);
             boards = boardService.글검색하기(pageable, keyword);
             System.out.println("목록:"+boards.getContent().size());

@@ -17,14 +17,19 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long>{
 
+
+    @Modifying
+    @Query(value="INSERT INTO Reply(groupId,userId, boardId, content, createdate) VALUES(?1, ?2, ?3,now())",nativeQuery = true)
+    public Integer mSave(Long userId, Long boardId, String content );
+
     
     @Modifying
     @Query(value="INSERT INTO Reply(userId, boardId, parentId, stepNum,rankNum, content, createdate) VALUES(?1, ?2, ?3, ?4, ?5, ?6 ,now())",nativeQuery = true)
     public Integer replySave(Long userId, Long boardId, Long parentId, int stepNum, int rankNum,String content );
 
     @Modifying
-    @Query(value="INSERT INTO Reply(userId, boardId, groupId, parentId, stepNum, rankNum,  content, createdate) VALUES(?1, ?2, ?3, ?4,?5, ?6, ?7, now())",nativeQuery = true)
-    public Integer subReplySave(Long userId, Long boardId, Long groupId,Long parentId, int stepNum, int rankNum,String content );
+    @Query(value="INSERT INTO Reply(userId, boardId, groupId, parentId, stepNum, rankNum, content, createdate) VALUES(?1, ?2, ?3, ?4,?5, ?6, ?7, now())",nativeQuery = true)
+    public Integer subReplySave(Long userId, Long boardId, Long groupId,Long parentId, int stepNum, int rankNum, String content );
 
 
 

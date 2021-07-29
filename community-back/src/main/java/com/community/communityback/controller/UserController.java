@@ -25,11 +25,9 @@ public class UserController {
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody UserDto userDto) {
 
-        if(userService.회원가입(userDto.defaultJoin())!=null){
-            return new ResponseEntity<>(null, HttpStatus.CREATED);
-        }else{
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+ 
+        return new ResponseEntity<>(userService.회원가입(userDto.defaultJoin()), HttpStatus.CREATED);
+
 
     }
 

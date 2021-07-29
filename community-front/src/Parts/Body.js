@@ -13,6 +13,7 @@ const Body = () => {
   return (
     <BrowserRouter>
       <Route path="/" exact={true} component={BoardList} />
+      <Route path="/?keyword=:keyword" component={BoardList} />
       <Route path="/board/:id" exact={true} component={BoardPage} />
       <Route
         path="/board/modify/:id"
